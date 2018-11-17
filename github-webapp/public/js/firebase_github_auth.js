@@ -10,8 +10,11 @@ function githubAuth() {
       // This gives you a GitHub Access Token. You can use it to access the GitHub API.
       var token = result.credential.accessToken;
       // The signed-in user info.
-      var user = result.user;
+      var user = result.additionalUserInfo.username;
       // ...
+      sessionStorage.setItem('token', token);
+      sessionStorage.setItem('user', user);
+      location.href = "main_page.html";
     }).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
