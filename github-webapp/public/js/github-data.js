@@ -5,6 +5,12 @@ var AuthUser = {
     contributors: [],
     thumbnail: null
 }
+var queueDefault = [1];
+var repoQueue = [];
+var contributorQueue = [];
+var numberOfContributors = 0;
+const MAX_NUMBER_OF_CONTRIBUTORS = 10;
+
 
 
 $(document).ready(function() {
@@ -56,6 +62,8 @@ function getAuthUserRepos() {
     });
 }
 
+
+
 function getContributors(user) {
   console.log("get contributors");
   for(var i = 0; i < user.repos.length; i++) {
@@ -88,12 +96,20 @@ function getContributors(user) {
                 }
 
                 if (isNewContributor(contributor.username, user.contributors)
-              && contributor.username != user.username){
+                    && contributor.username != user.username)
+                {
                    user.contributors.push(contributor);
                    console.log("new contributor pushed");
                    getRepos(contributor);
                 }
+
+                if (limitNotReached(queueDefault))
+                {
+                  repoQueue.push(contributor);
+                }
               }
+
+              getReposOfUsersInQueue();
 
             }
 
@@ -128,8 +144,11 @@ function getRepos(user) {
       },
       success: function(repos) {
           user.repos = repos;
-          console.log("got repos");
-          getContributors(user);
+
+          if(limitNotReached(queueDefault)){
+            contributorQueue.push(user);
+            getContributorsOfUsersInQueue();
+          }
       },
       error: function(jqXHR, textStatus, errorThrown) {
          console.log(errorThrown);
@@ -138,5 +157,43 @@ function getRepos(user) {
   });
 
 
+
+}
+
+
+function getContributorsOfUsersInQueue()
+{
+  while(limitNotReached(contributorQueue))
+  {
+    var user = contributorQueue.shift();
+    numberOfContributors++
+    getContributors(user);
+  }
+}
+
+function getReposOfUsersInQueue()
+{
+  while(limitNotReached(repoQueue))
+  {
+    var user = repoQueue.shift();
+    getRepos(user);
+  }
+}
+
+function limitNotReached(queue) {
+
+  if(queue.length < 1)
+  {
+    console.log("LIMIT REACHED no more");
+    return false;
+
+  }
+  else if (numberOfContributors == MAX_NUMBER_OF_CONTRIBUTORS)
+  {
+      console.log("LIMIT REACHED");
+    return false;
+  }
+
+  return true;
 
 }
