@@ -1,4 +1,4 @@
-var user = {
+var AuthUser = {
     username: sessionStorage.getItem('user'),
     data: null,
     repos: null,
@@ -25,8 +25,8 @@ function populateUserData() {
         },
         success: function(data)
         {
-          user.data = data;
-          user.thumbnail = data.avatar_url;
+          AuthUser.data = data;
+          AuthUser.thumbnail = data.avatar_url;
           getAuthUserRepos();
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -45,9 +45,9 @@ function getAuthUserRepos() {
             "access_token": sessionStorage.getItem('token')
         },
         success: function(repos) {
-            user.repos = repos;
+            AuthUser.repos = repos;
             console.log("got repos");
-            getContributors(user);
+            getContributors(AuthUser);
         },
         error: function(jqXHR, textStatus, errorThrown) {
            console.log(errorThrown);
@@ -91,6 +91,7 @@ function getContributors(user) {
               && contributor.username != user.username){
                    user.contributors.push(contributor);
                    console.log("new contributor pushed");
+                   getRepos(contributor);
                 }
               }
 
@@ -115,4 +116,27 @@ for (var i = 0; i < contributors.length; i++) {
          return false;
        }
  return true;
+}
+
+function getRepos(user) {
+
+  $.ajax({
+      url: "https://api.github.com/users/" + user.username + "/repos",
+      method: "GET",
+      data: {
+          "access_token": sessionStorage.getItem('token')
+      },
+      success: function(repos) {
+          user.repos = repos;
+          console.log("got repos");
+          getContributors(user);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+         console.log(errorThrown);
+         alert('Error');
+      }
+  });
+
+
+
 }
