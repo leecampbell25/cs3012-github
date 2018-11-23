@@ -1,18 +1,42 @@
 var user = {
     username: sessionStorage.getItem('user'),
-    repos: null
+    data: null,
+    repos: null,
+    contributors: null,
+    thumbnail: null
 }
-
 
 
 $(document).ready(function() {
 
     //DOM manipulation code
-    getRepos();
+   populateUserData();
 
 });
 
-function getRepos() {
+function populateUserData() {
+    console.log("User data");
+
+    $.ajax({
+        url: "https://api.github.com/user",
+        method: "GET",
+        data: {
+            "access_token": sessionStorage.getItem('token')
+        },
+        success: function(data)
+        {
+          user.data = data;
+          user.thumbnail = data.avatar_url;
+          getAuthUserRepos();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+           console.log(errorThrown);
+           alert('Error');
+        }
+    });
+}
+
+function getAuthUserRepos() {
     console.log("Fetching repos");
 
     $.ajax({
@@ -23,8 +47,6 @@ function getRepos() {
         },
         success: function(repos) {
             user.repos = repos;
-            sessionStorage.setItem('repos', repos);
-            alert('Success');
         },
         error: function(jqXHR, textStatus, errorThrown) {
            console.log(errorThrown);
