@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
       <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="css/graph.css">
+      <link rel="stylesheet" href="css/loader.css">
 
 
 </head>
@@ -33,13 +35,13 @@
               </nav>
             </div>
           </div>
-
+         <div id="display">
           <div class="inner cover">
             <h1 class="cover-heading">Analyse your GitHub</h1>
-              <button class="btn btn-lg btn-success" style="font-size:24px" onclick="displaySocialGraph()">Display <i class="fa fa-github"></i></button>
+              <button class="btn btn-lg btn-success" style="font-size:24px" onclick="createSocialGraph()">Display <i class="fa fa-github"></i></button>
             <br>
-            <div id="display">
-              </div>
+
+            </div>
             <br>
             <br>
 
@@ -53,9 +55,9 @@
 
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src="js/github-data.js"></script>
-      <script src="js/create-social-graph.js"></script>
+      <script src="js/d3-force-graph.js"></script>
       <script src="js/firebase_github_auth.js"></script>
-      <script src="https://d3js.org/d3.v5.min.js"></script>
+      <script src="https://d3js.org/d3.v3.min.js"></script>
       <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
             <script>
               // Initialize Firebase

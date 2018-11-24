@@ -1,24 +1,39 @@
-var AuthUser = {
+var authUser = {
     username: sessionStorage.getItem('user'),
     data: null,
     repos: null,
     contributors: [],
     thumbnail: null
 }
+
 var queueDefault = [1];
 var repoQueue = [];
-var contributorQueue = [];
+var contributorQueue = [authUser];
 var numberOfContributors = 0;
-const MAX_NUMBER_OF_CONTRIBUTORS = 10;
-
+const MAX_NUMBER_OF_CONTRIBUTORS = 12;
+const NEW_USER = -1;
+const DEFAULT = 1;
 
 
 $(document).ready(function() {
 
     //DOM manipulation code
-   populateUserData();
 
 });
+
+$(document).ajaxStop(function() {
+    illustrateData();
+});
+
+function createSocialGraph()
+{
+  var loading = '<div class="loader"></div>';
+  loading +=  '<p> Loading..this may take up to 60 seconds';
+  $("#display").html(loading);
+
+  populateUserData();
+
+}
 
 function populateUserData() {
     console.log("User data");
@@ -31,13 +46,12 @@ function populateUserData() {
         },
         success: function(data)
         {
-          AuthUser.data = data;
-          AuthUser.thumbnail = data.avatar_url;
+          authUser.data = data;
+          authUser.thumbnail = data.avatar_url;
           getAuthUserRepos();
         },
         error: function(jqXHR, textStatus, errorThrown) {
            console.log(errorThrown);
-           alert('Error');
         }
     });
 }
@@ -51,23 +65,19 @@ function getAuthUserRepos() {
             "access_token": sessionStorage.getItem('token')
         },
         success: function(repos) {
-            AuthUser.repos = repos;
+            authUser.repos = repos;
             console.log("got repos");
-            getContributors(AuthUser);
+            getContributorsOfUsersInQueue();
         },
         error: function(jqXHR, textStatus, errorThrown) {
            console.log(errorThrown);
-           alert('Error');
         }
     });
 }
 
-
-
 function getContributors(user) {
   console.log("get contributors");
   for(var i = 0; i < user.repos.length; i++) {
-
     var repo = user.repos[i];
 
     $.ajax({
@@ -100,13 +110,13 @@ function getContributors(user) {
                 {
                    user.contributors.push(contributor);
                    console.log("new contributor pushed");
-                   getRepos(contributor);
+
+                   if (limitNotReached(queueDefault))
+                   {
+                     repoQueue.push(contributor);
+                   }
                 }
 
-                if (limitNotReached(queueDefault))
-                {
-                  repoQueue.push(contributor);
-                }
               }
 
               getReposOfUsersInQueue();
@@ -116,7 +126,6 @@ function getContributors(user) {
         },
         error: function(jqXHR, textStatus, errorThrown) {
            console.log(errorThrown);
-           alert('Error');
         }
 
     });
@@ -152,17 +161,15 @@ function getRepos(user) {
       },
       error: function(jqXHR, textStatus, errorThrown) {
          console.log(errorThrown);
-         alert('Error');
+
       }
   });
-
-
-
 }
 
 
 function getContributorsOfUsersInQueue()
 {
+  console.log("Con queue");
   while(limitNotReached(contributorQueue))
   {
     var user = contributorQueue.shift();
@@ -173,6 +180,7 @@ function getContributorsOfUsersInQueue()
 
 function getReposOfUsersInQueue()
 {
+  console.log("Repo queue");
   while(limitNotReached(repoQueue))
   {
     var user = repoQueue.shift();
@@ -182,18 +190,70 @@ function getReposOfUsersInQueue()
 
 function limitNotReached(queue) {
 
-  if(queue.length < 1)
+  if (numberOfContributors == MAX_NUMBER_OF_CONTRIBUTORS)
   {
-    console.log("LIMIT REACHED no more");
+    console.log("LIMIT REACHED");
     return false;
-
   }
-  else if (numberOfContributors == MAX_NUMBER_OF_CONTRIBUTORS)
+  else if (queue.length < 1)
   {
-      console.log("LIMIT REACHED");
+    console.log("nothing in queue");
     return false;
   }
 
   return true;
+
+}
+
+function contributorsToD3(d3, user, source) {
+
+  var target = getTarget(d3, user);
+
+  if (target == NEW_USER) {
+
+    var node = {
+            name: user.username,
+            thumbnail: user.thumbnail,
+            group: DEFAULT
+        }
+        d3.nodes.push(node);
+        target = d3.nodes.length-1;
+
+        var link = {
+         source: source,
+         target: target,
+         value: DEFAULT
+     }
+        d3.links.push(link);
+
+  }
+
+  for (var i = 0; i < user.contributors.length && i < MAX_NUMBER_OF_CONTRIBUTORS; i++)
+       contributorsToD3(d3, user.contributors[i], target);
+}
+
+function getTarget(d3, user) {
+    for (var i = 0; i < d3.nodes.length; i++)
+        if (d3.nodes[i].name == user.username)
+            return i;
+    return NEW_USER;
+}
+
+function illustrateData()
+{
+   console.log("Show");
+    var graph = '<svg id="graph" width="' + $("#display").width() + '" height="' + $("#display").width() + '"></svg>';
+    $("#display").html(graph);
+
+    var d3 = {
+         nodes: [{
+             name: authUser.username,
+             thumbnail: authUser.thumbnail,
+             group: DEFAULT
+         }],
+         links: []
+     }
+     contributorsToD3(d3, authUser, 0);
+     constructSocialGraph(d3);
 
 }
