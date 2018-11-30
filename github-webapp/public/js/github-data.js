@@ -3,7 +3,8 @@ var authUser = {
     data: null,
     repos: null,
     contributors: [],
-    thumbnail: null
+    thumbnail: null,
+    followers: null
 }
 
 var queueDefault = [1];
