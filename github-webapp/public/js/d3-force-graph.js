@@ -6,6 +6,8 @@ function constructSocialGraph(data) {
       var svg    = d3.select("svg");
       var width  = parseInt(svg.style("width"), 10);
       var height = parseInt(svg.style("height"), 10);
+      var color = d3.scale.category20();
+
 
       var force = d3.layout.force()
           .gravity(0.05)
@@ -28,12 +30,16 @@ function constructSocialGraph(data) {
           .attr("class", "node")
           .call(force.drag);
 
-      node.append("image")
-          .attr("xlink:href", "https://github.com/favicon.ico")
-          .attr("x", -10)
-          .attr("y", -10)
-          .attr("width", 20)
-          .attr("height", 20);
+      // node.append("image")
+      //     .attr("xlink:href", "https://github.com/favicon.ico")
+      //     .attr("x", -10)
+      //     .attr("y", -10)
+      //     .attr("width", 20)
+      //     .attr("height", 20);
+      var circles = node.append("circle")
+      .attr("r", 5)
+      .attr("fill", function(d) { return color(d.source); })
+
 
       node.append("text")
           .attr("dx", 10)

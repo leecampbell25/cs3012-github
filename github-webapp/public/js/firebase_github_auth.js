@@ -18,6 +18,10 @@ function githubAuth() {
     }).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
+      // if (errorCode == 400)
+      // {
+      //   console.alert
+      // }
       var errorMessage = error.message;
       // The email of the user's account used.
       var email = error.email;

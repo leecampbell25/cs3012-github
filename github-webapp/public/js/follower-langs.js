@@ -21,15 +21,13 @@ topFollowerLangs = getTopLanguages(langs);
 topUserLangs = getTopLanguages(authUserLangs);
 console.log(JSON.stringify(topFollowerLangs));
 console.log(JSON.stringify(topUserLangs));
-//createDonutChart(topFollowerLangs);
-constructDonutChart(topFollowerLangs);
-constructDonutChart(topUserLangs);
-//createAuthUserDonutChart(topUserLangs);
+constructDonutChart(topFollowerLangs, "Across your follower's repos");
+constructDonutChart(topUserLangs, "Across your repos");
 
 
 });
 
-function getAuthUserFollowers() {
+function getFollowers() {
 
     $.ajax({
         url: "https://api.github.com/user/followers",
@@ -52,7 +50,6 @@ function  getFollowerRepos() {
 
     for (var i = 0; i < authUser.followers.length; i++)
     {
-
 
        var follower = {
          username:  authUser.followers[i].login,
@@ -79,8 +76,12 @@ function  getFollowerRepos() {
            }
        });
 
+       if (i == 20)
+       {
+         i = authUser.followers.length;
+       }
+
     }
-      console.log("hello");
 
 }
 
@@ -144,8 +145,14 @@ function getTopLanguages(data) {
                       });
    var sortedLangFrequency = languageFreqObj.sort((a, b) => b[1] - a[1]);
    console.log(JSON.stringify(sortedLangFrequency));
-
+   if (sortedLangFrequency.length >= 12)
+   {
    return sortedLangFrequency.slice(0, 12);
+    }
+     else
+     {
+       return sortedLangFrequency
+     }
 
 }
 
@@ -165,28 +172,7 @@ function getFrequency(arr) {
 
     return [a, b];
 }
-//
-// function createDonutChart(data)
-// {
-//    console.log("Show");
-//     var donut = '<svg id="donut" width="' + $("#displayDonut").width() + '" height="' + $("#displayDonut").width() + '"></svg>';
-//     $("#displayDonut").html(donut);
-//
-//      constructDonutChart(data);
-//
-// }
-//
-// function createAuthUserDonutChart(data)
-// {
-//    console.log("Show");
-//      var authUserDonut = '<h1>My Repositories:</h1>';
-//      authUserDonut = '<svg id="donut" width="' + $("#displayDonutAuth").width() + '" height="' + $("#displayDonutAuth").width() + '"></svg>';
-//
-//     $("#displayDonutAuth").html(authUserDonut);
-//
-//      constructDonutChart(data);
-//
-// }
+
 
 function getAuthUserRepoLinks()
 {

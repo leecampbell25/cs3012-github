@@ -1,4 +1,6 @@
-function constructDonutChart(data) {
+//adapted from http://bl.ocks.org/dbuezas/9306799
+
+function constructDonutChart(data, string) {
 
 var dataLabels = data.map(function (x, i) { return x[0] });
 var dataValues = data.map(function (x, i) { return i[0] });
@@ -20,12 +22,12 @@ var width = 960,
 	radius = Math.min(width, height) / 2;
 
 svg.append("text")
-      .attr("x", (width / 2))
-      .attr("y", 0)
+      .attr("x", 25)
+      .attr("y", -213)
       .attr("text-anchor", "middle")
       .style("font-size", "16px")
-      .style("text-decoration", "underline")
-      .text("Value vs Date Graph");
+      // .style("text-decoration", "underline")
+      .text(string);
 
 var pie = d3.layout.pie()
 	.sort(null)

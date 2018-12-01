@@ -19,7 +19,7 @@ const DEFAULT = 1;
 $(document).ready(function() {
 
     //DOM manipulation code
-
+    createGraphs();
 
 
 });
@@ -29,14 +29,13 @@ $(document).ajaxStop(function() {
 });
 
 
-function createSocialGraph()
+function createGraphs()
 {
   var loading = '<div class="loader"></div>';
   loading +=  '<p> Loading..this may take up to 60 seconds';
   $("#display").html(loading);
-  getAuthUserFollowers();
+  getFollowers();
   populateUserData();
-
 
 }
 
@@ -250,7 +249,8 @@ function illustrateData()
 height: 500px; */
 {
    console.log("Show");
-    var graph = '<svg id="graph" width="' + $("#display").width() + '" height="650px"></svg>';
+   var graph = '<br><br><br><br><br><h3 style="color:#fff;">Your contributor social graph</h3><br><br>';
+   graph += '<svg id="graph" width="' + $("#display").width() + '" height="650px"></svg>';
     $("#display").html(graph);
 
     var d3 = {
