@@ -20,19 +20,23 @@ $(document).ready(function() {
 
     //DOM manipulation code
 
+
+
 });
 
 $(document).ajaxStop(function() {
     illustrateData();
 });
 
+
 function createSocialGraph()
 {
   var loading = '<div class="loader"></div>';
   loading +=  '<p> Loading..this may take up to 60 seconds';
   $("#display").html(loading);
-
+  getAuthUserFollowers();
   populateUserData();
+
 
 }
 
@@ -68,6 +72,7 @@ function getAuthUserRepos() {
         success: function(repos) {
             authUser.repos = repos;
             console.log("got repos");
+            getAuthUserRepoLinks();
             getContributorsOfUsersInQueue();
         },
         error: function(jqXHR, textStatus, errorThrown) {

@@ -1,9 +1,12 @@
 
 var followerQueue = [];
-var repoQueue = [];
-var languageQueue = [];
+var followerRepoQueue = [];
+var followerLanguageQueue = [];
 var langs = [];
-var sumLanguageFrequencies;
+var authUserLangs = [];
+var authUserRepoQueue = [];
+var authUserLanguageQueue = [];
+//var sumLanguageFrequencies;
 var topFollowerLangs;
 
 $(document).ready(function() {
@@ -15,8 +18,12 @@ $(document).ready(function() {
 $(document).ajaxStop(function() {
 
 topFollowerLangs = getTopLanguages(langs);
+topUserLangs = getTopLanguages(authUserLangs);
 console.log(JSON.stringify(topFollowerLangs));
-createDonutChart();
+console.log(JSON.stringify(topUserLangs));
+createDonutChart(topFollowerLangs);
+createAuthUserDonutChart(topUserLangs);
+
 
 });
 
@@ -63,7 +70,7 @@ function  getFollowerRepos() {
                follower.repos = repos;
                console.log("got follower repos");
                followerQueue.push(follower);
-               getReposLinks();
+               getReposLinks(followerQueue, followerRepoQueue, followerLanguageQueue, langs);
            },
            error: function(jqXHR, textStatus, errorThrown) {
               console.log(errorThrown);
@@ -75,27 +82,23 @@ function  getFollowerRepos() {
 
 }
 
-function  getReposLinks() {
+function  getReposLinks(userQueue, repoQueue, languageQueue, languageStore) {
 
-    while (followerQueue.length > 0)
+    while (userQueue.length > 0)
     {
-      var currentFollower = followerQueue.shift();
-       var language = {
-         name:  null,
-         usage: null
-       }
+      var currentFollower = userQueue.shift();
        for (var j = 0; j < currentFollower.repos.length; j++)
        {
          var currentRepo = currentFollower.repos[j].url;
          repoQueue.push(currentRepo);
-         getLanguages();
+         getLanguages(repoQueue, languageQueue, languageStore);
          console.log(currentRepo);
 
        }
     }
 }
 
-function  getLanguages() {
+function  getLanguages(repoQueue, languageQueue, languageStore) {
 
   while (repoQueue.length > 0)
   {
@@ -114,7 +117,8 @@ function  getLanguages() {
           while (languageQueue.length > 0)
           {
             var currentLang = languageQueue.shift();
-            langs.push(currentLang);
+            languageStore.push(currentLang);
+            console.log(currentRepo);
             console.log(currentLang);
           }
 
@@ -132,14 +136,14 @@ function getTopLanguages(data) {
   var frequency = getFrequency(data);
   var languageKeys = frequency[0];
   var languageFrequencies = frequency[1];
-  sumLanguageFrequencies = languageFrequencies.reduce((a, b) => a + b, 0);
+  //sumLanguageFrequencies = languageFrequencies.reduce((a, b) => a + b, 0);
   var languageFreqObj = languageKeys.map(function (x, i) {
                           return [x, languageFrequencies[i]]
                       });
    var sortedLangFrequency = languageFreqObj.sort((a, b) => b[1] - a[1]);
    console.log(JSON.stringify(sortedLangFrequency));
 
-   return sortedLangFrequency.slice(0, 10);
+   return sortedLangFrequency.slice(0, 12);
 
 }
 
@@ -160,12 +164,29 @@ function getFrequency(arr) {
     return [a, b];
 }
 
-function createDonutChart()
+function createDonutChart(data)
 {
    console.log("Show");
     var donut = '<svg id="donut" width="' + $("#displayDonut").width() + '" height="' + $("#displayDonut").width() + '"></svg>';
     $("#displayDonut").html(donut);
 
-     constructDonutChart(topFollowerLangs);
+     constructDonutChart(data);
+
+}
+
+function createAuthUserDonutChart(data)
+{
+   console.log("Show");
+    var authUserDonut = '<svg id="donut" width="' + $("#displayAuthUserDonut").width() + '" height="' + $("#displayAuthUserDonut").width() + '"></svg>';
+    $("#displayAuthUserDonut").html(authUserDonut);
+
+     constructDonutChart(data);
+
+}
+
+function getAuthUserRepoLinks()
+{
+  var userQueue = [authUser];
+  getReposLinks(userQueue, authUserRepoQueue, authUserLanguageQueue, authUserLangs);
 
 }
