@@ -21,8 +21,10 @@ topFollowerLangs = getTopLanguages(langs);
 topUserLangs = getTopLanguages(authUserLangs);
 console.log(JSON.stringify(topFollowerLangs));
 console.log(JSON.stringify(topUserLangs));
-createDonutChart(topFollowerLangs);
-createAuthUserDonutChart(topUserLangs);
+//createDonutChart(topFollowerLangs);
+constructDonutChart(topFollowerLangs);
+constructDonutChart(topUserLangs);
+//createAuthUserDonutChart(topUserLangs);
 
 
 });
@@ -163,26 +165,28 @@ function getFrequency(arr) {
 
     return [a, b];
 }
-
-function createDonutChart(data)
-{
-   console.log("Show");
-    var donut = '<svg id="donut" width="' + $("#displayDonut").width() + '" height="' + $("#displayDonut").width() + '"></svg>';
-    $("#displayDonut").html(donut);
-
-     constructDonutChart(data);
-
-}
-
-function createAuthUserDonutChart(data)
-{
-   console.log("Show");
-    var authUserDonut = '<svg id="donut" width="' + $("#displayAuthUserDonut").width() + '" height="' + $("#displayAuthUserDonut").width() + '"></svg>';
-    $("#displayAuthUserDonut").html(authUserDonut);
-
-     constructDonutChart(data);
-
-}
+//
+// function createDonutChart(data)
+// {
+//    console.log("Show");
+//     var donut = '<svg id="donut" width="' + $("#displayDonut").width() + '" height="' + $("#displayDonut").width() + '"></svg>';
+//     $("#displayDonut").html(donut);
+//
+//      constructDonutChart(data);
+//
+// }
+//
+// function createAuthUserDonutChart(data)
+// {
+//    console.log("Show");
+//      var authUserDonut = '<h1>My Repositories:</h1>';
+//      authUserDonut = '<svg id="donut" width="' + $("#displayDonutAuth").width() + '" height="' + $("#displayDonutAuth").width() + '"></svg>';
+//
+//     $("#displayDonutAuth").html(authUserDonut);
+//
+//      constructDonutChart(data);
+//
+// }
 
 function getAuthUserRepoLinks()
 {

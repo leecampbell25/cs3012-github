@@ -246,9 +246,11 @@ function getTarget(d3, user) {
 }
 
 function illustrateData()
+/* width: 960px;
+height: 500px; */
 {
    console.log("Show");
-    var graph = '<svg id="graph" width="' + $("#display").width() + '" height="' + $("#display").width() + '"></svg>';
+    var graph = '<svg id="graph" width="' + $("#display").width() + '" height="650px"></svg>';
     $("#display").html(graph);
 
     var d3 = {

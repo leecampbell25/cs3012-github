@@ -19,6 +19,14 @@ var width = 960,
     height = 450,
 	radius = Math.min(width, height) / 2;
 
+svg.append("text")
+      .attr("x", (width / 2))
+      .attr("y", 0)
+      .attr("text-anchor", "middle")
+      .style("font-size", "16px")
+      .style("text-decoration", "underline")
+      .text("Value vs Date Graph");
+
 var pie = d3.layout.pie()
 	.sort(null)
 	.value(function(d) {

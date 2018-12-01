@@ -12,7 +12,7 @@
       <link rel="stylesheet" href="css/style.css">
       <link rel="stylesheet" href="css/graph.css">
       <link rel="stylesheet" href="css/loader.css">
-      <link rel="stylesheet" href="css/donut.css">
+      <link rel="stylesheet" href="css/svg.css">
 
 
 </head>
@@ -43,48 +43,41 @@
               <br>
               <br>
               <button class="btn btn-lg btn-success" style="font-size:24px" onclick="getAuthUserFollowers()">Followers <i class="fa fa-github"></i></button>
-            <br>
             </div>
-
           </div>
+            <div id="displayD">
           <div id="displayDonut">
-          </div><br>
-           <h1 class="cover-heading">AuthUser</h1>
-           <div id="displayAuthUserDonut">
+          </div>
+          <div id="displayDonutAuth">
             </div>
-
         </div>
+      </div>
 
       </div>
 
     </div>
-
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script src="js/github-data.js"></script>
-      <script src="js/d3-force-graph.js"></script>
-      <script src="js/firebase_github_auth.js"></script>
-      <script src="js/follower-langs.js"></script>
-      <script src="js/donut-chart.js"></script>
-      <script src="https://d3js.org/d3.v3.min.js"></script>
-      <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
-            <script>
-              // Initialize Firebase
-              // TODO: Replace with your project's customized code snippet
-              var config = {
-                apiKey: "AIzaSyBn0FZhqP0rs-w_OrkG1ojNTbJd25NyPOU",
-                authDomain: "github-analytics-cs3012.firebaseapp.com",
-                databaseURL: "https://github-analytics-cs3012.firebaseio.com",
-                projectId: "github-analytics-cs3012",
-                storageBucket: "github-analytics-cs3012.appspot.com",
-                messagingSenderId: "629380857924"
-              };
-              firebase.initializeApp(config);
-        </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+          <script src="js/github-data.js"></script>
+          <script src="js/d3-force-graph.js"></script>
+          <script src="js/firebase_github_auth.js"></script>
+          <script src="js/follower-langs.js"></script>
+          <script src="js/donut-chart.js"></script>
+          <script src="https://d3js.org/d3.v3.min.js"></script>
+          <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+                <script>
+                  // Initialize Firebase
+                  // TODO: Replace with your project's customized code snippet
+                  var config = {
+                    apiKey: "AIzaSyBn0FZhqP0rs-w_OrkG1ojNTbJd25NyPOU",
+                    authDomain: "github-analytics-cs3012.firebaseapp.com",
+                    databaseURL: "https://github-analytics-cs3012.firebaseio.com",
+                    projectId: "github-analytics-cs3012",
+                    storageBucket: "github-analytics-cs3012.appspot.com",
+                    messagingSenderId: "629380857924"
+                  };
+                  firebase.initializeApp(config);
+            </script>
 
     </body>
     <br>
     <br>
-    href="https://www.w3schools.com">Visit W3Schools
-    <p style="color:black"> Designed for Trinity College Dublin's CS3012 Software Engineering module | Lee Campbell | <a style="color:blue" href="https://www.w3schools.com">View source code</a> </p>
-
-</html>
