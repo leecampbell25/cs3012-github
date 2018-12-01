@@ -2,6 +2,7 @@
 var followerQueue = [];
 var repoQueue = [];
 var languageQueue = [];
+var langs = [];
 
 $(document).ready(function() {
 
@@ -10,6 +11,16 @@ $(document).ready(function() {
 });
 
 $(document).ajaxStop(function() {
+
+  var frequency = getFrequency(langs);
+  var languageKeys = frequency[0];
+  var languageFrequencies = frequency[1];
+  var languageFreqObj = languageKeys.map(function (x, i) {
+                          return [x, languageFrequencies[i]]
+                      });
+   var sortedLangFrequency = languageFreqObj.sort((a, b) => b[1] - a[1]);
+   console.log(JSON.stringify(sortedLangFrequency));
+
 
 });
 
@@ -102,12 +113,14 @@ function  getLanguages() {
         },
         success: function(languages) {
 
-        
-          var keys = $.map(languages,function(v,k) { return k; });
 
-          languageQueue.push(languages);
-          var lang = languages.Java;
-          console.log(keys[0]);
+          languageQueue = $.map(languages,function(v,k) { return k; });
+          while (languageQueue.length > 0)
+          {
+            var currentLang = languageQueue.shift();
+            langs.push(currentLang);
+            console.log(currentLang);
+          }
 
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -115,10 +128,23 @@ function  getLanguages() {
         }
     });
 
-
   }
+}
 
 
+function getFrequency(arr) {
+    var a = [], b = [], prev;
 
+    arr.sort();
+    for ( var i = 0; i < arr.length; i++ ) {
+        if ( arr[i] !== prev ) {
+            a.push(arr[i]);
+            b.push(1);
+        } else {
+            b[b.length-1]++;
+        }
+        prev = arr[i];
+    }
 
+    return [a, b];
 }
