@@ -3,6 +3,8 @@ var followerQueue = [];
 var repoQueue = [];
 var languageQueue = [];
 var langs = [];
+var sumLanguageFrequencies;
+var topFollowerLangs;
 
 $(document).ready(function() {
 
@@ -12,15 +14,9 @@ $(document).ready(function() {
 
 $(document).ajaxStop(function() {
 
-  var frequency = getFrequency(langs);
-  var languageKeys = frequency[0];
-  var languageFrequencies = frequency[1];
-  var languageFreqObj = languageKeys.map(function (x, i) {
-                          return [x, languageFrequencies[i]]
-                      });
-   var sortedLangFrequency = languageFreqObj.sort((a, b) => b[1] - a[1]);
-   console.log(JSON.stringify(sortedLangFrequency));
-
+topFollowerLangs = getTopLanguages(langs);
+console.log(JSON.stringify(topFollowerLangs));
+createDonutChart();
 
 });
 
@@ -131,6 +127,21 @@ function  getLanguages() {
   }
 }
 
+function getTopLanguages(data) {
+
+  var frequency = getFrequency(data);
+  var languageKeys = frequency[0];
+  var languageFrequencies = frequency[1];
+  sumLanguageFrequencies = languageFrequencies.reduce((a, b) => a + b, 0);
+  var languageFreqObj = languageKeys.map(function (x, i) {
+                          return [x, languageFrequencies[i]]
+                      });
+   var sortedLangFrequency = languageFreqObj.sort((a, b) => b[1] - a[1]);
+   console.log(JSON.stringify(sortedLangFrequency));
+
+   return sortedLangFrequency.slice(0, 10);
+
+}
 
 function getFrequency(arr) {
     var a = [], b = [], prev;
@@ -147,4 +158,14 @@ function getFrequency(arr) {
     }
 
     return [a, b];
+}
+
+function createDonutChart()
+{
+   console.log("Show");
+    var donut = '<svg id="donut" width="' + $("#displayDonut").width() + '" height="' + $("#displayDonut").width() + '"></svg>';
+    $("#displayDonut").html(donut);
+
+     constructDonutChart(topFollowerLangs);
+
 }
