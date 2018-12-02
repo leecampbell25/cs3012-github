@@ -18,8 +18,8 @@ $(document).ajaxStop(function() {
 
 topFollowerLangs = getTopLanguages(langs);
 topUserLangs = getTopLanguages(authUserLangs);
-console.log(JSON.stringify(topFollowerLangs));
-console.log(JSON.stringify(topUserLangs));
+//console.log(JSON.stringify(topFollowerLangs));
+//console.log(JSON.stringify(topUserLangs));
 constructDonutChart(topFollowerLangs, "Across your follower's repos");
 constructDonutChart(topUserLangs, "Across your own repos");
 
@@ -56,7 +56,7 @@ function  getFollowerRepos() {
          thumbnail:  authUser.followers[i].avatar_url
        }
 
-       console.log(follower.username);
+       //console.log(follower.username);
 
        $.ajax({
            url: "https://api.github.com/users/" + follower.username + "/repos",
@@ -66,7 +66,7 @@ function  getFollowerRepos() {
            },
            success: function(repos) {
                follower.repos = repos;
-               console.log("got follower repos");
+               //console.log("got follower repos");
                followerQueue.push(follower);
                getReposLinks(followerQueue, followerRepoQueue, followerLanguageQueue, langs);
            },
@@ -94,7 +94,7 @@ function  getReposLinks(userQueue, repoQueue, languageQueue, languageStore) {
          var currentRepo = currentFollower.repos[j].url;
          repoQueue.push(currentRepo);
          getLanguages(repoQueue, languageQueue, languageStore);
-         console.log(currentRepo);
+         //console.log(currentRepo);
 
        }
     }
@@ -120,8 +120,8 @@ function  getLanguages(repoQueue, languageQueue, languageStore) {
           {
             var currentLang = languageQueue.shift();
             languageStore.push(currentLang);
-            console.log(currentRepo);
-            console.log(currentLang);
+            //console.log(currentRepo);
+            //console.log(currentLang);
           }
 
         },
@@ -142,7 +142,7 @@ function getTopLanguages(data) {
                           return [x, languageFrequencies[i]]
                       });
    var sortedLangFrequency = languageFreqObj.sort((a, b) => b[1] - a[1]);
-   console.log(JSON.stringify(sortedLangFrequency));
+   //console.log(JSON.stringify(sortedLangFrequency));
    if (sortedLangFrequency.length >= 12)
    {
    return sortedLangFrequency.slice(0, 12);

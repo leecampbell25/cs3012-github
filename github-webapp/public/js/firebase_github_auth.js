@@ -20,10 +20,11 @@ function githubAuth() {
     }).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
-      // if (errorCode == 400)
-      // {
-      //   console.alert
-      // }
+      if (errorCode == 400)
+      {
+          alert("GitHub API rate limit reached. Please try again in an hour.");
+      }
+
       var errorMessage = error.message;
       // The email of the user's account used.
       var email = error.email;

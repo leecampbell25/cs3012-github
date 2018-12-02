@@ -3,7 +3,6 @@ var authUser = {
     data: null,
     repos: null,
     contributors: [],
-    thumbnail: null,
     followers: null
 }
 
@@ -40,7 +39,7 @@ function createGraphs()
 }
 
 function populateUserData() {
-    console.log("User data");
+    //console.log("User data");
 
     $.ajax({
         url: "https://api.github.com/user",
@@ -51,10 +50,12 @@ function populateUserData() {
         success: function(data)
         {
           authUser.data = data;
-          authUser.thumbnail = data.avatar_url;
           getAuthUserRepos();
         },
         error: function(jqXHR, textStatus, errorThrown) {
+          if (jqXHR.status === 403) {
+                alert("GitHub API rate limit reached. Please try again in an hour.");
+            }
            console.log(errorThrown);
         }
     });
@@ -107,14 +108,13 @@ function getContributors(user) {
                   username: contributors[j].login,
                   repos: null,
                   contributors: [],
-                  thumbnail: contributors[j].avatar_url,
                 }
 
                 if (isNewContributor(contributor.username, user.contributors)
                     && contributor.username != user.username)
                 {
                    user.contributors.push(contributor);
-                   console.log("new contributor pushed");
+                   //console.log("new contributor pushed");
 
                    if (limitNotReached(queueDefault))
                    {
@@ -140,7 +140,7 @@ function getContributors(user) {
 }
 
 function isNewContributor(username, contributors) {
-console.log("new con");
+//console.log("new con");
 for (var i = 0; i < contributors.length; i++) {
      if (username === contributors[i].username)
          return false;
@@ -174,7 +174,7 @@ function getRepos(user) {
 
 function getContributorsOfUsersInQueue()
 {
-  console.log("Con queue");
+  //console.log("Con queue");
   while(limitNotReached(contributorQueue))
   {
     var user = contributorQueue.shift();
@@ -185,7 +185,7 @@ function getContributorsOfUsersInQueue()
 
 function getReposOfUsersInQueue()
 {
-  console.log("Repo queue");
+  //console.log("Repo queue");
   while(limitNotReached(repoQueue))
   {
     var user = repoQueue.shift();
@@ -197,12 +197,12 @@ function limitNotReached(queue) {
 
   if (numberOfContributors == MAX_NUMBER_OF_CONTRIBUTORS)
   {
-    console.log("LIMIT REACHED");
+    //console.log("LIMIT REACHED");
     return false;
   }
   else if (queue.length < 1)
   {
-    console.log("nothing in queue");
+    //console.log("nothing in queue");
     return false;
   }
 
@@ -218,7 +218,6 @@ function contributorsToD3(d3, user, source) {
 
     var node = {
             name: user.username,
-            thumbnail: user.thumbnail,
             group: DEFAULT
         }
         d3.nodes.push(node);
@@ -248,7 +247,7 @@ function illustrateData()
 /* width: 960px;
 height: 500px; */
 {
-   console.log("Show");
+   //console.log("Show");
    var graph = '<br><br><br><br><br><h3 style="color:#5cb85c;">Your contributor social graph</h3><p>Contributors of contributors of your repos<br><br>';
    graph += '<svg id="graph" width="' + $("#display").width() + '" height="650px"></svg>';
     $("#display").html(graph);
@@ -256,7 +255,6 @@ height: 500px; */
     var d3 = {
          nodes: [{
              name: authUser.username,
-             thumbnail: authUser.thumbnail,
              group: DEFAULT
          }],
          links: []
