@@ -4,11 +4,12 @@
 
 <h3> Usage </h3>
 
-Task: To implement a function that can calculate the lowest common ancestor in a graph, that may be structured as a binary tree. The grading focus is on your test code.
+Vist live deployment at https://github-analytics-cs3012.firebaseapp.com
 
-<h3> Live deployment </h3>
+or [follow these steps to install firebase locally](https://firebase.google.com/docs/functions/get-started)
 
 <h3> Demo </h3>
+
 ![](demo.gif)
 
 
