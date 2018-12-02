@@ -9,7 +9,7 @@ Task: To implement a function that can calculate the lowest common ancestor in a
 <h3> Live deployment </h3>
 
 <h3> Demo </h3>
-![Screenshot of Code Coverage](https://github.com/leecampbell25/cs3012-github/blob/master/demo.gif)
+![](demo.gif)
 
 
 
