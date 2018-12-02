@@ -1,4 +1,4 @@
-//Sourced from: https://beta.observablehq.com/@mbostock/d3-force-directed-graph
+//Adapted from: https://beta.observablehq.com/@mbostock/d3-force-directed-graph
 
 
 function constructSocialGraph(data) {
@@ -30,12 +30,6 @@ function constructSocialGraph(data) {
           .attr("class", "node")
           .call(force.drag);
 
-      // node.append("image")
-      //     .attr("xlink:href", "https://github.com/favicon.ico")
-      //     .attr("x", -10)
-      //     .attr("y", -10)
-      //     .attr("width", 20)
-      //     .attr("height", 20);
       var circles = node.append("circle")
       .attr("r", 5)
       .attr("fill", function(d) { return color(d.source); })

@@ -1,3 +1,5 @@
+//Ref: https://firebase.google.com/docs/auth/web/github-auth
+
 function githubAuth() {
     console.log("Attempting to sign in...");
     var provider = new firebase.auth.GithubAuthProvider();
