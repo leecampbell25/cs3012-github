@@ -6,7 +6,6 @@ var langs = [];
 var authUserLangs = [];
 var authUserRepoQueue = [];
 var authUserLanguageQueue = [];
-//var sumLanguageFrequencies;
 var topFollowerLangs;
 
 $(document).ready(function() {
@@ -22,7 +21,7 @@ topUserLangs = getTopLanguages(authUserLangs);
 console.log(JSON.stringify(topFollowerLangs));
 console.log(JSON.stringify(topUserLangs));
 constructDonutChart(topFollowerLangs, "Across your follower's repos");
-constructDonutChart(topUserLangs, "Across your repos");
+constructDonutChart(topUserLangs, "Across your own repos");
 
 
 });
@@ -139,7 +138,6 @@ function getTopLanguages(data) {
   var frequency = getFrequency(data);
   var languageKeys = frequency[0];
   var languageFrequencies = frequency[1];
-  //sumLanguageFrequencies = languageFrequencies.reduce((a, b) => a + b, 0);
   var languageFreqObj = languageKeys.map(function (x, i) {
                           return [x, languageFrequencies[i]]
                       });

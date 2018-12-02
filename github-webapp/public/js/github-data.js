@@ -249,7 +249,7 @@ function illustrateData()
 height: 500px; */
 {
    console.log("Show");
-   var graph = '<br><br><br><br><br><h3 style="color:#fff;">Your contributor social graph</h3><br><br>';
+   var graph = '<br><br><br><br><br><h3 style="color:#5cb85c;">Your contributor social graph</h3><p>Contributors of contributors of your repos<br><br>';
    graph += '<svg id="graph" width="' + $("#display").width() + '" height="650px"></svg>';
     $("#display").html(graph);
 
