@@ -1,4 +1,4 @@
-//adapted from http://bl.ocks.org/dbuezas/9306799
+//Adapted from http://bl.ocks.org/dbuezas/9306799
 
 function constructDonutChart(data, string) {
 
