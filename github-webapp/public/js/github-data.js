@@ -3,7 +3,8 @@ var authUser = {
     data: null,
     repos: null,
     contributors: [],
-    thumbnail: null
+    thumbnail: null,
+    followers: null
 }
 
 var queueDefault = [1];
@@ -18,6 +19,8 @@ const DEFAULT = 1;
 $(document).ready(function() {
 
     //DOM manipulation code
+    createGraphs();
+
 
 });
 
@@ -25,12 +28,13 @@ $(document).ajaxStop(function() {
     illustrateData();
 });
 
-function createSocialGraph()
+
+function createGraphs()
 {
   var loading = '<div class="loader"></div>';
   loading +=  '<p> Loading..this may take up to 60 seconds';
   $("#display").html(loading);
-
+  getFollowers();
   populateUserData();
 
 }
@@ -67,6 +71,7 @@ function getAuthUserRepos() {
         success: function(repos) {
             authUser.repos = repos;
             console.log("got repos");
+            getAuthUserRepoLinks();
             getContributorsOfUsersInQueue();
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -240,9 +245,12 @@ function getTarget(d3, user) {
 }
 
 function illustrateData()
+/* width: 960px;
+height: 500px; */
 {
    console.log("Show");
-    var graph = '<svg id="graph" width="' + $("#display").width() + '" height="' + $("#display").width() + '"></svg>';
+   var graph = '<br><br><br><br><br><h3 style="color:#5cb85c;">Your contributor social graph</h3><p>Contributors of contributors of your repos<br><br>';
+   graph += '<svg id="graph" width="' + $("#display").width() + '" height="650px"></svg>';
     $("#display").html(graph);
 
     var d3 = {

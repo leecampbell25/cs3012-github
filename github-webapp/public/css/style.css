@@ -144,3 +144,7 @@ body {
   pointer-events: none;
   font: 10px sans-serif;
 }
+
+.donut-title {
+  color: #000;
+}

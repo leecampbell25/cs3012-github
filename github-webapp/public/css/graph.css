@@ -5,4 +5,9 @@
 .node text {
   pointer-events: none;
   font: 10px sans-serif;
+  fill: #fff;
+}
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
 }
