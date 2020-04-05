@@ -6,7 +6,7 @@
 {"node":3,"name":"Blue"},
 {"node":4,"name":"Pink"}
 ],
-"links": [{"source":2,"target":0,"value":0.63},{"source":1,"target":4,"value":1.28},{"source":0,"target":2,"value":0.64},{"source":3,"target":2,"value":1.02},{"source":1,"target":2,"value":1.26},{"source":1,"target":0,"value":1.18},{"source":3,"target":4,"value":0.83},{"source":1,"target":3,"value":1.41},{"source":3,"target":0,"value":0.97},{"source":2,"target":4,"value":0.87},{"source":2,"target":3,"value":0.59},{"source":0,"target":4,"value":0.76},{"source":0,"target":3,"value":0.78},{"source":4,"target":3,"value":0.68},{"source":4,"target":2,"value":0.69},{"source":4,"target":0,"value":0.59}]
+"links": [{"source":2,"target":0,"value":0.063},{"source":1,"target":4,"value":0.128},{"source":0,"target":2,"value":0.064},{"source":3,"target":2,"value":0.102},{"source":1,"target":2,"value":0.126},{"source":1,"target":0,"value":0.118},{"source":3,"target":4,"value":0.083},{"source":1,"target":3,"value":0.141},{"source":3,"target":0,"value":0.097},{"source":2,"target":4,"value":0.087},{"source":2,"target":3,"value":0.059},{"source":0,"target":4,"value":0.076},{"source":0,"target":3,"value":0.078},{"source":4,"target":3,"value":0.068},{"source":4,"target":2,"value":0.069},{"source":4,"target":0,"value":0.059}]
 
 
 
